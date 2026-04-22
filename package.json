@@ -1,44 +1,44 @@
 {
-	"author": "bobslavtriev",
-	"name": "mysql-baileys",
-	"version": "1.5.6",
-	"main": "lib/index.js",
-	"types": "lib/index.d.ts",
-	"description": "Implementation of MySQL in Baileys.",
-	"homepage": "https://github.com/bobslavtriev/mysql-baileys",
-	"license": "MIT",
-	"files": [
-		"lib/*"
-	],
-	"scripts": {
-		"release": "release-it",
-		"build": "tsc",
-		"prepack": "tsc",
-		"prepare": "tsc",
-		"build:tsc": "tsc",
-		"build:docs": "typedoc",
-		"build:all": "tsc && typedoc",
-		"lint": "eslint src --ext .ts",
-		"lint:fix": "eslint src --fix --ext .ts"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bobslavtriev/mysql-baileys.git"
-	},
-	"dependencies": {
-		"curve25519-js": "^0.0.4",
-		"mysql2": "^3.10.1"
-	},
-	"devDependencies": {
-		"@adiwajshing/eslint-config": "https://github.com/adiwajshing/eslint-config.git",
-		"@types/node": "^16.18.69",
-		"@types/long": "^4.0.2",
-		"@typescript-eslint/eslint-plugin": "^6.18.0",
-		"@typescript-eslint/parser": "^6.18.0",
-		"eslint": "^8.56.0",
-		"release-it": "^15.10.3",
-		"typedoc": "^0.24.7",
-		"ts-node": "^10.8.1",
-		"typescript": "^4.6.4"
-	}
+    "author": "putrodwi31",
+    "name": "mysql-baileys",
+    "version": "1.6.0",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "description": "Implementation of MySQL in Baileys.",
+    "homepage": "https://github.com/putrodwi31/mysql-baileys",
+    "license": "MIT",
+    "files": [
+        "lib/*"
+    ],
+    "scripts": {
+        "release": "release-it",
+        "build": "tsc",
+        "prepack": "tsc",
+        "prepare": "tsc",
+        "build:tsc": "tsc",
+        "build:docs": "typedoc",
+        "build:all": "tsc && typedoc",
+        "lint": "eslint src --ext .ts",
+        "lint:fix": "eslint src --fix --ext .ts"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/putrodwi31/mysql-baileys.git"
+    },
+    "dependencies": {
+        "curve25519-js": "^0.0.4",
+        "mysql2": "^3.10.1"
+    },
+    "devDependencies": {
+        "@adiwajshing/eslint-config": "https://github.com/adiwajshing/eslint-config.git",
+        "@types/node": "^16.18.69",
+        "@types/long": "^4.0.2",
+        "@typescript-eslint/eslint-plugin": "^8.59.0",
+        "@typescript-eslint/parser": "^8.59.0",
+        "eslint": "^9.0.0",
+        "release-it": "^15.10.3",
+        "typedoc": "^0.24.7",
+        "ts-node": "^10.8.1",
+        "typescript": "^5.1.6"
+    }
 }

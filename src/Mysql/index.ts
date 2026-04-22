@@ -25,7 +25,7 @@ import { MySQLConfig, sqlData, sqlConnection, AuthenticationCreds, Authenticatio
 
 let conn: sqlConnection
 
-async function connection(config: MySQLConfig, force: boolean = false){
+async function connection(config: MySQLConfig, force = false){
 	const ended = !!conn?.connection?._closing
 	const newConnection = conn === undefined
 
@@ -68,9 +68,9 @@ export const useMySQLAuthState = async(config: MySQLConfig): Promise<{ state: Au
 			try {
 				const [rows] = await sqlConn.query(sql, values)
 				return rows as sqlData
-			} catch(e){
-				await new Promise(r => setTimeout(r, retryRequestDelayMs))
-			}
+				} catch {
+					await new Promise(r => setTimeout(r, retryRequestDelayMs))
+				}
 		}
 		return [] as sqlData
 	}
@@ -81,9 +81,9 @@ export const useMySQLAuthState = async(config: MySQLConfig): Promise<{ state: Au
 			return null
 		}
 		const value = data[0].value;
-		if (/^[\{\[]/.test(value)){
-			return JSON.parse(value, BufferJSON.reviver);
-		}
+			if (/^[{[]/.test(value)){
+				return JSON.parse(value, BufferJSON.reviver);
+			}
 		return value
 	}
 

@@ -1,197 +1,207 @@
-import { Connection } from 'mysql2/promise'
+import { Connection } from "mysql2/promise";
+import type Long from "long";
 
-type Awaitable<T> = T | Promise<T>
+type Awaitable<T> = T | Promise<T>;
 
 type Contact = {
-	id: string
-	lid?: string
-	jid?: string
-	name?: string
-	notify?: string
-	verifiedName?: string
-	imgUrl?: string | null
-	status?: string
-}
+    id: string;
+    lid?: string;
+    jid?: string;
+    name?: string;
+    notify?: string;
+    verifiedName?: string;
+    imgUrl?: string | null;
+    status?: string;
+};
 
 type Account = {
-	details?: Uint8Array | null
-	accountSignatureKey?: Uint8Array | null
-	accountSignature?: Uint8Array | null
-	deviceSignature?: Uint8Array | null
-}
+    details?: Uint8Array | null;
+    accountSignatureKey?: Uint8Array | null;
+    accountSignature?: Uint8Array | null;
+    deviceSignature?: Uint8Array | null;
+};
 
 type SignedKeyPair = {
-	keyPair: KeyPair
-	signature: Uint8Array
-	keyId: number
-	timestampS?: number
-}
+    keyPair: KeyPair;
+    signature: Uint8Array;
+    keyId: number;
+    timestampS?: number;
+};
 
 type ProtocolAddress = {
-	name: string
-	deviceId: number
-}
+    name: string;
+    deviceId: number;
+};
 
 type SignalIdentity = {
-	identifier: ProtocolAddress
-	identifierKey: Uint8Array
-}
+    identifier: ProtocolAddress;
+    identifierKey: Uint8Array;
+};
 
 type LTHashState = {
-	version: number
-	hash: Buffer
-	indexValueMap: {
-		[indexMacBase64: string]: { valueMac: Uint8Array | Buffer }
-	}
-}
+    version: number;
+    hash: Buffer;
+    indexValueMap: {
+        [indexMacBase64: string]: { valueMac: Uint8Array | Buffer };
+    };
+};
 
 type SignalCreds = {
-	readonly signedIdentityKey: KeyPair
-	readonly signedPreKey: SignedKeyPair
-	readonly registrationId: number
-}
+    readonly signedIdentityKey: KeyPair;
+    readonly signedPreKey: SignedKeyPair;
+    readonly registrationId: number;
+};
 
 type AccountSettings = {
-	unarchiveChats: boolean
-	defaultDisappearingMode?: Pick<any, 'ephemeralExpiration' | 'ephemeralSettingTimestamp'>
-}
+    unarchiveChats: boolean;
+    defaultDisappearingMode?: Pick<any, "ephemeralExpiration" | "ephemeralSettingTimestamp">;
+};
 
 type SignalKeyStore = {
-	get<T extends keyof SignalDataTypeMap>(type: T, ids: string[]): Awaitable<{
-		[id: string]: SignalDataTypeMap[T]
-	}>
-	set(data: SignalDataSet): Awaitable<void>
-	clear?(): Awaitable<void>
-}
+    get<T extends keyof SignalDataTypeMap>(
+        type: T,
+        ids: string[],
+    ): Awaitable<{
+        [id: string]: SignalDataTypeMap[T];
+    }>;
+    set(data: SignalDataSet): Awaitable<void>;
+    clear?(): Awaitable<void>;
+};
 
 export type SslOptions = {
-	pfx?: string
-	key?: string | string[] | Buffer | Buffer[]
-	passphrase?: string
-	cert?: string | string[] | Buffer | Buffer[]
-	ca?: string | string[] | Buffer | Buffer[]
-	crl?: string | string[]
-	ciphers?: string
-	rejectUnauthorized?: boolean
-	minVersion?: string
-	maxVersion?: string
-	verifyIdentity?: boolean
-}
+    pfx?: string;
+    key?: string | string[] | Buffer | Buffer[];
+    passphrase?: string;
+    cert?: string | string[] | Buffer | Buffer[];
+    ca?: string | string[] | Buffer | Buffer[];
+    crl?: string | string[];
+    ciphers?: string;
+    rejectUnauthorized?: boolean;
+    minVersion?: string;
+    maxVersion?: string;
+    verifyIdentity?: boolean;
+};
 
 export type Fingerprint = {
-	rawId: number
-	currentIndex: number
-	deviceIndexes: number[]
-}
+    rawId: number;
+    currentIndex: number;
+    deviceIndexes: number[];
+};
 
 export type AppDataSync = {
-	keyData: Uint8Array
-	fingerprint: Fingerprint
-	timestamp: Long | number
-}
+    keyData: Uint8Array;
+    fingerprint: Fingerprint;
+    timestamp: Long | number;
+};
 
 export type SignalDataTypeMap = {
-	session: Uint8Array
-	'pre-key': KeyPair
-	'sender-key': Uint8Array
-	'app-state-sync-key': AppDataSync
-	'app-state-sync-version': LTHashState
-	'sender-key-memory': {
-		[jid: string]: boolean
-	}
-}
+    "pre-key": KeyPair;
+    session: Uint8Array;
+    "sender-key": Uint8Array;
+    "sender-key-memory": {
+        [jid: string]: boolean;
+    };
+    "app-state-sync-key": AppDataSync;
+    "app-state-sync-version": LTHashState;
+    "lid-mapping": string;
+    "device-list": string[];
+    tctoken: {
+        token: Buffer;
+        timestamp?: string;
+    };
+};
 
 export type SignalDataSet = {
-	[T in keyof SignalDataTypeMap]?: {
-		[id: string]: SignalDataTypeMap[T] | null
-	}
-}
+    [T in keyof SignalDataTypeMap]?: {
+        [id: string]: SignalDataTypeMap[T] | null;
+    };
+};
 
 export type KeyPair = {
-	public: Uint8Array | Buffer
-	private: Uint8Array | Buffer
-}
+    public: Uint8Array | Buffer;
+    private: Uint8Array | Buffer;
+};
 
 export type sqlData = {
-	constructor: {
-		name: 'RowDataPacket'
-	}
-	value?: object[]
-}
+    constructor: {
+        name: "RowDataPacket";
+    };
+    value?: object[];
+};
 
 export interface sqlConnection extends Connection {
-	connection?: {
-		_closing?: boolean
-	}
+    connection?: {
+        _closing?: boolean;
+    };
 }
 
 export type MySQLConfig = {
-	/* The hostname of the database you are connecting to. (Default: localhost) */
-	host?: string
-	/* The port number to connect to. (Default: 3306) */
-	port?: number
-	/* The MySQL user to authenticate as. (Default: root) */
-	user?: string
-	/* The password of that MySQL user */
-	password: string
-	/* Alias for the MySQL user password. Makes a bit more sense in a multifactor authentication setup (see "password2" and "password3") */
-	password1?: string
-	/* 2nd factor authentication password. Mandatory when the authentication policy for the MySQL user account requires an additional authentication method that needs a password. */
-	password2?: string
-	/* 3rd factor authentication password. Mandatory when the authentication policy for the MySQL user account requires two additional authentication methods and the last one needs a password. */
-	password3?: string
-	/* Name of the database to use for this connection. (Default: base) */
-	database: string
-	/* MySql table name. (Default: auth) */
-	tableName?: string
-	/* Retry the query at each interval if it fails. (Default: 200ms) */
-	retryRequestDelayMs?: number
-	/* Maximum attempts if the query fails. (Default: 10) */
-	maxRetries?: number
-	/* Session name to identify the connection, allowing multisessions with mysql. */
-	session: string
-	/* The source IP address to use for TCP connection. */
-	localAddress?: string
-	/* The path to a unix domain socket to connect to. When used host and port are ignored. */
-	socketPath?: string
-	/* Allow connecting to MySQL instances that ask for the old (insecure) authentication method. (Default: false) */
-	insecureAuth?: boolean
-	/* If your connection is a server. (Default: false) */
-	isServer?: boolean
-	/* Use the config SSL. (Default: disabled) */
-	ssl?: string | SslOptions
-}
+    /* The hostname of the database you are connecting to. (Default: localhost) */
+    host?: string;
+    /* The port number to connect to. (Default: 3306) */
+    port?: number;
+    /* The MySQL user to authenticate as. (Default: root) */
+    user?: string;
+    /* The password of that MySQL user */
+    password: string;
+    /* Alias for the MySQL user password. Makes a bit more sense in a multifactor authentication setup (see "password2" and "password3") */
+    password1?: string;
+    /* 2nd factor authentication password. Mandatory when the authentication policy for the MySQL user account requires an additional authentication method that needs a password. */
+    password2?: string;
+    /* 3rd factor authentication password. Mandatory when the authentication policy for the MySQL user account requires two additional authentication methods and the last one needs a password. */
+    password3?: string;
+    /* Name of the database to use for this connection. (Default: base) */
+    database: string;
+    /* MySql table name. (Default: auth) */
+    tableName?: string;
+    /* Retry the query at each interval if it fails. (Default: 200ms) */
+    retryRequestDelayMs?: number;
+    /* Maximum attempts if the query fails. (Default: 10) */
+    maxRetries?: number;
+    /* Session name to identify the connection, allowing multisessions with mysql. */
+    session: string;
+    /* The source IP address to use for TCP connection. */
+    localAddress?: string;
+    /* The path to a unix domain socket to connect to. When used host and port are ignored. */
+    socketPath?: string;
+    /* Allow connecting to MySQL instances that ask for the old (insecure) authentication method. (Default: false) */
+    insecureAuth?: boolean;
+    /* If your connection is a server. (Default: false) */
+    isServer?: boolean;
+    /* Use the config SSL. (Default: disabled) */
+    ssl?: string | SslOptions;
+};
 
 export type valueReviver = {
-	data?: string | number[];
-	value?: string | number[];
-	type?: string;
-	buffer?: boolean;
-}
+    data?: string | number[];
+    value?: string | number[];
+    type?: string;
+    buffer?: boolean;
+};
 
 export type AuthenticationState = {
-	creds: AuthenticationCreds
-	keys: SignalKeyStore
-}
+    creds: AuthenticationCreds;
+    keys: SignalKeyStore;
+};
 
 export type AuthenticationCreds = SignalCreds & {
-	readonly noiseKey: KeyPair
-	readonly pairingEphemeralKeyPair: KeyPair
-	advSecretKey: string
-	me?: Contact
-	account?: Account
-	signalIdentities?: SignalIdentity[]
-	myAppStateKeyId?: string
-	firstUnuploadedPreKeyId: number
-	nextPreKeyId: number
-	lastAccountSyncTimestamp?: number
-	platform?: string
-	processedHistoryMessages: Pick<any, 'key' | 'messageTimestamp'>[]
-	accountSyncCounter: number
-	accountSettings: AccountSettings
-	registered: boolean
-	pairingCode: string | undefined
-	lastPropHash: string | undefined
-	routingInfo: Buffer | undefined
-	additionalData?: any | undefined
-}
+    readonly noiseKey: KeyPair;
+    readonly pairingEphemeralKeyPair: KeyPair;
+    advSecretKey: string;
+    me?: Contact;
+    account?: Account;
+    signalIdentities?: SignalIdentity[];
+    myAppStateKeyId?: string;
+    firstUnuploadedPreKeyId: number;
+    nextPreKeyId: number;
+    lastAccountSyncTimestamp?: number;
+    platform?: string;
+    processedHistoryMessages: Pick<any, "key" | "messageTimestamp">[];
+    accountSyncCounter: number;
+    accountSettings: AccountSettings;
+    registered: boolean;
+    pairingCode: string | undefined;
+    lastPropHash: string | undefined;
+    routingInfo: Buffer | undefined;
+    additionalData?: any | undefined;
+};

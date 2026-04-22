@@ -1,5 +1,6 @@
 import * as curveJs from 'curve25519-js'
 import { randomBytes, generateKeyPairSync } from 'crypto'
+import type Long from 'long'
 import { KeyPair, valueReviver, AppDataSync, Fingerprint } from '../Types'
 
 export const generateKeyPair = (): KeyPair => {
@@ -17,10 +18,10 @@ export const generateKeyPair = (): KeyPair => {
 		}))
 
 		return {
-			public: pubBuffer.slice(12, 44),
-			private: privBuffer.slice(16, 48)
+			public: pubBuffer.subarray(12, 44),
+			private: privBuffer.subarray(16, 48)
 		}
-	} catch(e) {
+	} catch {
 		const keyPair = curveJs.generateKeyPair(randomBytes(32))
 		return {
 			public: Buffer.from(keyPair.public),

@@ -15,7 +15,8 @@
 		"resolveJsonModule": true,
 		"forceConsistentCasingInFileNames": true,
 		"declaration": true,
-		"lib": ["es2020", "esnext.array", "DOM"]
+		"lib": ["es2020", "esnext.array", "DOM"],
+		"types": ["node"]
 	},
 	"include": ["./src/**/*.ts", "./src/types/**/*.d.ts"],
 	"exclude": ["node_modules"]
