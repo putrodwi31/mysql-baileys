@@ -1,7 +1,7 @@
 {
     "author": "putrodwi31",
     "name": "@biu-biz/mysql-baileys",
-    "version": "1.6.2",
+    "version": "1.6.3",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "description": "Implementation of MySQL in Baileys.",
@@ -12,6 +12,7 @@
     ],
     "scripts": {
         "release": "release-it",
+        "changelog:update": "echo \"No changelog update step configured; skipping.\"",
         "build": "tsc",
         "prepack": "tsc",
         "prepare": "tsc",
